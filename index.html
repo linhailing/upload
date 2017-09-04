@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>jQuery多张图片批量上传插件</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/webuploader.css">
+		<link rel="stylesheet" type="text/css" href="css/diyUpload.css">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			#box {
+				margin: 10px auto;
+				width: 100%;
+				background: #FF9
+			}
+			.webuploader-pick{
+				font-size: 30px;
+			}
+			.parentFileBox{
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box">
+			<div id="test"></div>
+			<div id="imgs" style="display: none;">
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="js/webuploader.html5only.min.js"></script>
+		<script type="text/javascript" src="js/diyUpload.js"></script>
+		<script type="text/javascript">
+			/*
+			* 服务器地址,成功返回,失败返回参数格式依照jquery.ajax习惯;
+			* 其他参数同WebUploader
+			*/
+			//var imgs = [];
+			//var html = <>
+			$('#test').diyUpload({
+				url: 'uploadfile.php',
+				success: function(data) {
+					if(data.error == "0"){
+						var html = '<input type="hidden" name="imgs[]" value="'+data.name+'" />';
+						$('#imgs').append(html);
+					}
+					//console.log(imgs)
+				},
+
+				error: function(err) {
+					console.info(err);
+				},
+				buttonText: '选择文件',
+				chunked: true,
+				// 分片大小
+				chunkSize: 1024 * 1024,
+				//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+				fileNumLimit: 50,
+				fileSizeLimit: 500000 * 1024,
+				fileSingleSizeLimit: 50000 * 1024,
+				accept: {}
+			});
+		</script>
+	</body>
+
+</html>
